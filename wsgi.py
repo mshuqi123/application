@@ -15,5 +15,5 @@ from init import init_tools
 
 init_tools()
 
-
 app = create_app(Settings)
+
