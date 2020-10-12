@@ -9,6 +9,7 @@
 
 from flask import Flask
 from flask_mongoengine import MongoEngine
+from app.extensions import cache
 
 
 def create_app(settings):
@@ -22,11 +23,14 @@ def create_app(settings):
     app.debug = settings.is_debug
     # 将db注册到app中
     dbmongo = MongoEngine(app)
+    cache.init_app(app)
 
     from .views.user import user_view
     from .views.board import board_view
+    from .views.game import game_view
 
     app.register_blueprint(user_view)  # 用户模块
     app.register_blueprint(board_view)  # 留言模块
+    app.register_blueprint(game_view)  # 人天表模块
 
     return app

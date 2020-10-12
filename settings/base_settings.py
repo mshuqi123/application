@@ -13,6 +13,9 @@ class BaseSettings(object):
     基础配置信息
     """
     debug = False
+    SECRET_KEY = 'dev key'
+    CACHE_TYPE = 'simple'
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
 
     @staticmethod
     def init_app(app):

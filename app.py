@@ -3,6 +3,7 @@ from app import create_app
 from settings import Settings
 from init import init_tools
 
+
 init_tools()
 
 
