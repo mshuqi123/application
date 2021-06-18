@@ -9,7 +9,7 @@ from models.source_models import UserDayStat, UserInfo
 from app.views import parse_params
 
 game_view = Blueprint("game_view", __name__, url_prefix="/game")  # todo
-log = logs.Log().logger
+log = logs.Log(__name__).logger
 
 @game_view.route('/get_data', methods=['POST'])
 def get_data():
@@ -37,6 +37,9 @@ def get_data():
         game_count=game_count)
     # current_app.logger.info(data)
     log.info(data)
+    log.debug("Do something")
+    log.warning("Something maybe fail.")
+    log.info("Finish")
     return AppResponse.response(code=1, data=data)
 
 
