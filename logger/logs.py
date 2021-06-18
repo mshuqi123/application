@@ -3,6 +3,7 @@
 
 import logging
 import os
+from utils import setting
 import logging.config
 import sys
 
@@ -14,7 +15,7 @@ class Log:
         return cls.__obj
 
     def __init__(self):
-        CONF_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.ini")
+        CONF_LOG = setting.BASE_DIR + "/logger/config.ini"
         logging.config.fileConfig(CONF_LOG)  # 采用配置文件
         self.logger = logging.getLogger('application')
 
