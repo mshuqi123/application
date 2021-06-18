@@ -3,10 +3,13 @@
 
 from utils.response_json import AppResponse
 from flask import Blueprint, request
-from models.shard_models import UserDayStat, UserInfo
+from flask import current_app
+from logger import logs
+from models.source_models import UserDayStat, UserInfo
+from app.views import parse_params
 
 game_view = Blueprint("game_view", __name__, url_prefix="/game")  # todo
-
+log = logs.Log().logger
 
 @game_view.route('/get_data', methods=['POST'])
 def get_data():
@@ -32,6 +35,8 @@ def get_data():
         device_id=device_id,
         date=date,
         game_count=game_count)
+    # current_app.logger.info(data)
+    log.info(data)
     return AppResponse.response(code=1, data=data)
 
 
@@ -42,25 +47,36 @@ def login():
     :return:
     """
     phone_number = request.args.get('phone_number')
+    channel_name = request.args.get('channel_name')
     u = UserInfo(
-                phone_number=phone_number)
+                phone_number=phone_number,
+                channel_name=channel_name)
     u.save()
     uid = u.uid
     data = dict(
         uid=uid,
-        phone_number=phone_number)
+        phone_number=phone_number,
+        channel_name=channel_name)
     return AppResponse.response(code=1, data=data)
 
 
 @game_view.route('/get_login', methods=['POST'])
-def get_login():
+@parse_params
+def get_login(l_params):
     """
     游客登陆
     :return:
     """
     phone_number = request.args.get('phone_number')
-    u = UserInfo.objects(phone_number=phone_number)[0]
-    data = dict(
-        uid=u["uid"],
-        phone_number=u['phone_number'])
-    return AppResponse.response(code=1, data=data)
+    channel_name = l_params.channel_name
+    try:
+        u = UserInfo.objects(phone_number=phone_number)[0]
+        data = dict(
+            uid=u["uid"],
+            phone_number=u['phone_number'],
+            channel_name=channel_name)
+        return AppResponse.response(code=1, data=data)
+    except:
+        return AppResponse.response(code=-1008)
+
+

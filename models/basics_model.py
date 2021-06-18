@@ -42,7 +42,11 @@ class Board(Document):
         return self.messager_name
 
 
-
+class Info(Document):
+    name_id = StringField(max_length=20, unique=True, required=True)
+    age = IntField(required=True)
+    name = StringField(max_length=60, required=True)
+    gender = StringField(max_length=60, required=True)
 
 
 
