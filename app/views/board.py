@@ -4,7 +4,7 @@
 import json
 from utils.response_json import AppResponse
 from flask import Blueprint, request
-from models.basics_model import Board
+from models.basics_model import Board, Info
 # from .. import dbmongo as db
 
 board_view = Blueprint("board_view", __name__, url_prefix="/board")  # todo
@@ -48,7 +48,22 @@ def get():
     return AppResponse.response(code=1, data=data)
 
 
-
+@board_view.route('/info', methods=['POST'])
+def info():
+    """
+    获取留言
+    :return:
+    """
+    name_id = request.args.get('name_id')
+    age = request.args.get('age')
+    name = request.args.get('name')
+    gender = request.args.get('gender')
+    data = dict(name_id=name_id,
+                age=age,
+                name=name,
+                gender=gender)
+    Info(name_id=name_id, age=age, name=name, gender=gender).save()
+    return AppResponse.response(code=1, data=data)
 
 
 
