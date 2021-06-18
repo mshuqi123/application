@@ -1,0 +1,8 @@
+2021-06-18 20:27:33,730 - app.views.game - INFO - {'user_id': '0000011', 'device_id': '7f3bb239-630c-3a50-861f-02f86a3058a6', 'date': '2020-10-12', 'game_count': '4'}
+2021-06-18 20:27:33,730 - app.views.game - INFO - Start print log
+2021-06-18 20:27:33,730 - app.views.game - WARNING - Something maybe fail.
+2021-06-18 20:27:33,730 - app.views.game - INFO - Finish
+2021-06-18 20:37:01,464 - app.views.game - INFO - {'user_id': '0000012', 'device_id': '7f3bb239-630c-3a50-861f-02f86a3058a6', 'date': '2020-10-12', 'game_count': '4'}
+2021-06-18 20:37:01,464 - app.views.game - INFO - Start print log
+2021-06-18 20:37:01,464 - app.views.game - WARNING - Something maybe fail.
+2021-06-18 20:37:01,465 - app.views.game - INFO - Finish
