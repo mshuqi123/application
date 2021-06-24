@@ -8,3 +8,4 @@ venv
 *.sublime*
 .flaskenv
 .env
+logger/log.log

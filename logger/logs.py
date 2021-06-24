@@ -22,5 +22,5 @@ class Log:
         self.logger.addHandler(console)
 
 if __name__ == '__main__':
-    logger = Log().logger
+    logger = Log(__name__).logger
     logger.info("aasf")
