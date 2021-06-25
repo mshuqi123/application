@@ -12,7 +12,7 @@ basic_output = Basic_output.conf
 Legend_town_view = Blueprint("Legend_town_view", __name__, url_prefix="/town")  # todo
 log = logs.Log(__name__).logger
 
-@Legend_town_view.route('/consumption2', methods=['POST'])
+@Legend_town_view.route('/consumption2', methods=['POST', 'GET'])
 def Production_consumption2():
     """生产及解锁消耗金币
     param id: 该参数为工厂id
@@ -36,7 +36,7 @@ def Production_consumption2():
         log=f"{name} 工厂从 {grade} 级升到 {mgrade} 级共需要消耗 {Unit_conversion(xall)}")
     return AppResponse.response(code=1, data=data)
 
-@Legend_town_view.route('/basic_output', methods=['POST'])
+@Legend_town_view.route('/basic_output', methods=['POST', 'GET'])
 def Basic_output():
     """生产及解锁消耗金币
     param ids: 该参数为当前已解锁的全部工厂id，以列表传入
@@ -52,7 +52,6 @@ def Basic_output():
     gradex = grade.split(',')
     doublex = double.split(',')
     acceleratex = accelerate.split(',')
-    log.info(idsx)
     if len(idsx) == len(gradex) == len(doublex) == len(acceleratex):
         re = output(idsx, gradex, doublex, acceleratex)
     else:
