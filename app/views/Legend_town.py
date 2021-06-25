@@ -61,7 +61,45 @@ def Basic_output():
         output=re[1])
     return AppResponse.response(code=1, data=data)
 
-
+@Legend_town_view.route('/reward', methods=['POST', 'GET'])
+def Reward_acquisition():
+    """生产及解锁消耗金币
+    param ids: 该参数为当前已解锁的全部工厂id，以列表传入
+    param grade: 该参数为当前已解锁的全部工厂的当前等级，需要与ids列表内元素纵向一一对应，以列表传入
+    param double: 该参数为当前已解锁的全部工厂的当前翻倍数，需要与ids列表内元素纵向一一对应，以列表传入
+    param accelerate: 该参数为当前已解锁的全部工厂的当前加速倍率，需要与ids列表内元素纵向一一对应，以列表传入
+    param type: 该参数为计算类别，1-招商引资，2-网红直播，3-离线收益，4-钻石兑换；以整形传入
+    param time: 该参数为要计算收益的时间，以秒计算，以整形传入
+    """
+    ids = request.args.get('ids')
+    grade = request.args.get('grade')
+    double = request.args.get('double')
+    accelerate = request.args.get('accelerate')
+    type = request.args.get('type')
+    time = request.args.get('time')
+    idsx = ids.split(',')
+    gradex = grade.split(',')
+    doublex = double.split(',')
+    acceleratex = accelerate.split(',')
+    if len(idsx) == len(gradex) == len(doublex) == len(acceleratex):
+        re = output(idsx, gradex, doublex, acceleratex)
+        attract = re[0][0] * int(time) * 60
+        attract = Unit_conversion((attract, re[0][1]))
+        if int(type) == 1:
+            result = f"本次招商引资获得奖励为：{attract}"
+        elif int(type) == 2:
+            result = f"本次网红直播获得奖励为：{attract}"
+        elif int(type) == 3:
+            result = f"本次离线收益获得奖励为：{Unit_conversion((attract[0]* 0.8, attract[1]))}"
+        elif int(type) == 4:
+            result = f"本次钻石兑换获得奖励为：{attract}"
+        else:
+            return AppResponse.response(code=-1000, message="奖励类型参数错误，请重新输入~")
+    else:
+        return AppResponse.response(code=-1000, message="各个工厂对应等级翻倍长度有误，请重新输入~")
+    data = dict(
+        result=result)
+    return AppResponse.response(code=1, data=data)
 
 
 
