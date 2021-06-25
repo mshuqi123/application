@@ -4,7 +4,7 @@ app.db
 ./build/*
 .idea
 env
-venv
+venv/
 *.sublime*
 .flaskenv
 .env
