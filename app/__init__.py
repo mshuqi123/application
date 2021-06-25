@@ -8,7 +8,7 @@
 """
 
 from flask import Flask
-from app.extensions import cache, mongo, celery
+from app.extensions import cache, mongo, celery, cors
 
 
 def create_app(settings):
@@ -46,6 +46,7 @@ def register_extensions(app):
     cache.init_app(app)
     mongo.init_app(app)    #将mongodb注册到app中
     celery.init_app(app)
+    cors.init_app(app, supports_credentials=True)     # 配置全局跨域路由
 
 
 

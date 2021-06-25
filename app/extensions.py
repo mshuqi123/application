@@ -9,6 +9,7 @@
 from flask_mongoengine import MongoEngine
 from flask_wtf import CSRFProtect
 from flask_caching import Cache
+from flask_cors import CORS         # 处理跨域问题的库
 from flask_celery import Celery
 
 # from flask_bootstrap import Bootstrap
@@ -24,6 +25,7 @@ mongo = MongoEngine()
 cache = Cache()
 csrf = CSRFProtect()
 celery = Cache()
+cors = CORS()
 
 # bootstrap = Bootstrap()
 # db = SQLAlchemy()
