@@ -33,12 +33,40 @@ def Production_consumption2():
     data = dict(
         id=id,
         consumption=Unit_conversion(xall),
-        log=f"{name} 工厂从 {grade} 级升到 {mgrade} 级共需要消耗 {Unit_conversion(xall)}")
+        log=f"{name} 从 {grade} 级升到 {mgrade} 级共需要消耗 {Unit_conversion(xall)}")
+    return AppResponse.response(code=1, data=data)
+
+@Legend_town_view.route('/consumption', methods=['POST', 'GET'])
+def Production_consumption():
+    """生产及解锁消耗金币,只能计算小等级的升级消耗
+    param id: 该参数为工厂id
+    param grade: 该参数为工厂当前等级
+    param mgrade: 该参数为工厂从当前等级要升级n次
+    param discount: 该参数为工厂当前消耗便宜系数
+    """
+    id = request.args.get('id')
+    grade = request.args.get('grade')
+    num = request.args.get('num')
+    discount = request.args.get('discount', '1.0')
+    xgrade = int(grade)
+    all = []
+    for n in range(int(num)):
+        xgc = Unit_conversion(int(basic_output[int(id) - 1][4]))
+        pro = xgc[0] * (float(basic_output[int(id) - 1][5]) ** xgrade) * float(discount)
+        xpro = Unit_conversion((pro, xgc[1]))
+        all.append(xpro)
+        xgrade += 1
+    xall = get_sum2(all)
+    name = basic_output[int(id) - 1][1]
+    data = dict(
+        id=id,
+        consumption=Unit_conversion(xall),
+        log=f"{name} 从 {grade} 级升到 {int(grade) + int(num)} 级共需要消耗 {Unit_conversion(xall)}")
     return AppResponse.response(code=1, data=data)
 
 @Legend_town_view.route('/basic_output', methods=['POST', 'GET'])
 def Basic_output():
-    """生产及解锁消耗金币
+    """计算工厂实时秒产值
     param ids: 该参数为当前已解锁的全部工厂id，以列表传入
     param grade: 该参数为当前已解锁的全部工厂的当前等级，需要与ids列表内元素纵向一一对应，以列表传入
     param double: 该参数为当前已解锁的全部工厂的当前翻倍数，需要与ids列表内元素纵向一一对应，以列表传入
@@ -63,7 +91,7 @@ def Basic_output():
 
 @Legend_town_view.route('/reward', methods=['POST', 'GET'])
 def Reward_acquisition():
-    """生产及解锁消耗金币
+    """计算招商引资&网红直播&离线收益&钻石兑换
     param ids: 该参数为当前已解锁的全部工厂id，以列表传入
     param grade: 该参数为当前已解锁的全部工厂的当前等级，需要与ids列表内元素纵向一一对应，以列表传入
     param double: 该参数为当前已解锁的全部工厂的当前翻倍数，需要与ids列表内元素纵向一一对应，以列表传入
