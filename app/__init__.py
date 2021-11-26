@@ -33,12 +33,14 @@ def register_blueprints(app):
     from .views.game import game_view
     from .views.login import login_view
     from .views.Legend_town import Legend_town_view
+    from .views.data_processing import data_processing_view
 
     app.register_blueprint(user_view)  # 用户模块
     app.register_blueprint(board_view)  # 留言模块
     app.register_blueprint(game_view)  # 人天表模块
     app.register_blueprint(login_view)  # 登陆注册模块
-    app.register_blueprint(Legend_town_view)  # 登陆注册模块
+    app.register_blueprint(Legend_town_view)  # 小镇传奇数值测试模块
+    app.register_blueprint(data_processing_view)  # 测试组数值测试模块
 
 
 def register_extensions(app):
