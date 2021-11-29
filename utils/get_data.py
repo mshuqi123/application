@@ -7,7 +7,7 @@ from utils import setting
 
 def fruit_data():
     """我的水果店数据获取"""
-    dir = os.listdir(setting.data + "\\fruit")
+    dir = os.listdir(setting.data + "/fruit")
     try:
         if dir:
             sheetName = '对照组'

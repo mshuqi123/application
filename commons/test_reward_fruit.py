@@ -83,17 +83,14 @@ class ContentTest:
             game_balance = data['game_balance']
             with open(setting.data + f'\\{self.yid}.txt', 'a+', encoding='utf-8') as f:
                 f.write(f"{self.user_id} 用户本次获得红包 {cash_balance}; 金币 {game_balance}\n")
-            if self.open_verification:
-                pass
-            else:
-                data_fw = self.data_fw[self.guest_total - 1]
-                with open(setting.data + f'\\{self.yid}.txt', 'a+', encoding='utf-8') as f:
-                    f.write(f"本关卡的奖励波动范围为 {data_fw}\n")
-                if data_fw[0] <= float(cash_balance.split(' ')[0]) <= data_fw[1]:
-                    with open(setting.data + f'\\{self.yid}.txt', 'a+', encoding='utf-8') as f:
-                        f.write("奖励符合预期\n")
+                if self.open_verification:
+                    pass
                 else:
-                    with open(setting.data + f'\\{self.yid}.txt', 'a+', encoding='utf-8') as f:
+                    data_fw = self.data_fw[self.guest_total - 1]
+                    f.write(f"本关卡的奖励波动范围为 {data_fw}\n")
+                    if data_fw[0] <= float(cash_balance.split(' ')[0]) <= data_fw[1]:
+                        f.write("奖励符合预期\n--------------------------------------------------\n")
+                    else:
                         f.write("奖励与预期不符请注意核对\n--------------------------------------------------\n")
         except Exception:
             traceback.print_exc()
