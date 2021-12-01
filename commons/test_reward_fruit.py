@@ -132,7 +132,7 @@ class ContentTest:
             level = data['level']
             self.guest_total = guest_total
             with open(setting.data + f'\\{self.yid}.txt', 'a+', encoding='utf-8') as f:
-                f.write(f"{self.user_id} 用户已累计招揽 {guest_total} 个顾客; 目前等级为 {level}\n")
+                f.write(f"{self.user_id} 用户已累计招揽 {guest_total} 个顾客; 目前等级为 {level} ")
         except Exception:
             traceback.print_exc()
 
