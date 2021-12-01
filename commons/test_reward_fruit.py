@@ -73,6 +73,7 @@ class ContentTest:
         try:
             resp = requests.request(method="POST", url=url, params=params, data=body, cookies=cookies)
             resp = resp.json()
+            log.info(resp)
             if resp.get("encrypt"):   # 解密
                 resp = self.rsa.rsa_decrypt(resp["data"])
             data = resp["data"]['reward'][0]
@@ -82,7 +83,7 @@ class ContentTest:
                 cash_balance = f"{cash_balance} 元 "
             game_balance = data['game_balance']
             with open(setting.data + f'\\{self.yid}.txt', 'a+', encoding='utf-8') as f:
-                f.write(f"本次揽客获得红包 {cash_balance}, 金币 {game_balance}\n")
+                f.write(f"本次揽客获得红包 {cash_balance}, 金币 {game_balance};\n")
                 if self.open_verification:
                     pass
                 else:
