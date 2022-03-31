@@ -3,7 +3,7 @@
 import datetime
 from mongoengine import Document
 from mongoengine import connect, DynamicDocument, SequenceField, StringField, ListField, IntField, FloatField, \
-    DoesNotExist, DictField,DateTimeField
+    DoesNotExist, DictField,DateTimeField,EmailField,BooleanField
 
 
 class Users(Document):
@@ -48,6 +48,13 @@ class Info(Document):
     name = StringField(max_length=60, required=True)
     gender = StringField(max_length=60, required=True)
 
+class UserInfo(Document):
+    meta = {"collection": "user_info", "db_alias": "default"}
+    name = StringField(max_length=32, required=True)
+    password = StringField(max_length=32, required=True)
+    email = EmailField(required=True)
+    # 记录激活状态
+    is_active = BooleanField(default=False)
 
 
 

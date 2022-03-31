@@ -17,8 +17,9 @@ class AppSettings(BaseSettings):
     # mongo 数据库配置
     MONGODB_SETTINGS = [{
         "db": "app",
-        "host": "129.28.161.243",
+        "host": "101.43.185.228",
         "port": 20017,
+        "alias": "default",
         "maxPoolSize": 10,
         "maxIdleTimeMS": 30000
     }]
@@ -32,11 +33,16 @@ class AppDebugSettings(BaseSettings):
     # mongo 数据库配置
     MONGODB_SETTINGS = [{
         "db": "app_test",
-        "host": "129.28.161.243",
+        "host": "101.43.185.228",
         "port": 20017,
+        "alias": "default",
         "maxPoolSize": 10,
         "maxIdleTimeMS": 30000
     }]
+
+    #  celery 配置连接redis
+    CELERY_BROKER_URL = 'redis://101.43.185.228:6379'
+    CELERY_RESULT_BACKEND = 'redis://101.43.185.228:6379'
 
     @property
     def is_debug(self):

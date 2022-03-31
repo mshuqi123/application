@@ -73,7 +73,6 @@ class ContentTest:
         try:
             resp = requests.request(method="POST", url=url, params=params, data=body, cookies=cookies)
             resp = resp.json()
-            log.info(resp)
             if resp.get("encrypt"):   # 解密
                 resp = self.rsa.rsa_decrypt(resp["data"])
             data = resp["data"]['reward'][0]

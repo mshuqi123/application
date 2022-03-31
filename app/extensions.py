@@ -5,8 +5,8 @@
     :copyright:
     :license: MIT, see LICENSE for more details.
 """
-
 from flask_mongoengine import MongoEngine
+from flask_mail import Mail
 from flask_wtf import CSRFProtect
 from flask_caching import Cache
 from flask_cors import CORS         # 处理跨域问题的库
@@ -26,6 +26,7 @@ cache = Cache()
 csrf = CSRFProtect()
 celery = Cache()
 cors = CORS()
+mail = Mail()
 
 # bootstrap = Bootstrap()
 # db = SQLAlchemy()
