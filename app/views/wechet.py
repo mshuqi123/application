@@ -4,7 +4,7 @@
 import json, time
 from utils.response_json import AppResponse
 from flask import Blueprint, request, g, jsonify, abort
-from models.wechet_model import User
+from models.wechet_model import User, Content
 from commons import wechet_fun
 
 wechet_view = Blueprint("wechet_view", __name__, url_prefix="/wechet")  # todo
@@ -27,44 +27,6 @@ def register():
         return AppResponse.response(code=1, data={"title": "注册成功"})
     else:
         return AppResponse.response(code=-1, data={"title": "密码输入不一致请重新输入"})
-#
-#
-# @app.route('/api/users/<int:id>')
-# def get_user(id):
-#     user = User.query.get(id)
-#     if not user:
-#         abort(400)
-#     return jsonify({'username': user.username})
-#
-#
-# @app.route('/api/token')
-# @auth.login_required
-# def get_auth_token():
-#     token = g.user.generate_auth_token(600)
-#     return jsonify({'token': token.decode('ascii'), 'duration': 600})
-
-
-# @app.route('/api/resource')
-# @auth.login_required
-# def get_resource():
-#     return jsonify({'data': 'Hello, %s!' % g.user.username})
-
-# @wechet_view.route('/register', methods=['POST'])
-# def register():
-#     """
-#     用户注册
-#     :return:
-#     """
-#     # name_id = request.args.get('name_id')
-#     # age = request.args.get('age')
-#     # name = request.args.get('name')
-#     # gender = request.args.get('gender')
-#     # data = dict(name_id=name_id,
-#     #             age=age,
-#     #             name=name,
-#     #             gender=gender)
-#     # Users(name_id=name_id, name=name, age=age, gender=gender).save()
-#     return AppResponse.response(code=1, data={})
 
 @wechet_view.route('/login', methods=['POST'])
 def login():
@@ -109,3 +71,41 @@ def auto_login():
         return AppResponse.response(code=1, data=data)
     else:
         return AppResponse.response(code=-1, data={"title": "登陆已过期请重新登录"})
+
+@wechet_view.route('/write', methods=['POST'])
+def write():
+    """
+    新增日记
+    :return:
+    """
+    phone = request.form.get('phone')
+    title = request.form.get('title')
+    data = request.form.get('data')
+    text = request.form.get('text')
+    status = request.form.get('status')
+    if phone is None or title is None or data is None or text is None or status is None:
+        return AppResponse.response(code=-1, data={"title": "内容均不可为空；请重新输入"})
+    content = Content(phone=phone, title=title, data=data, text=text, status=status)
+    content.save()
+    return AppResponse.response(code=1, data={"title": "日记发布成功"})
+
+@wechet_view.route('/get_data', methods=['POST'])
+def get_data():
+    """
+    获取全部日记
+    :return:
+    """
+    phone = request.form.get('phone')
+    if phone is None:
+        return AppResponse.response(code=-1, data={"title": "手机号不可为空；请重新输入"})
+    content = Content.objects.filter(phone=phone).all()
+    data = []
+    for con in content:
+        cont = dict(title=con.title,
+                     data=con.data,
+                     text=con.text,
+                     status=con.status
+             )
+        data.append(cont)
+    print(data)
+    return AppResponse.response(code=1, data=data)
