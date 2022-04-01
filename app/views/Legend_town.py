@@ -23,6 +23,7 @@ def Production_consumption2():
     grade = request.args.get('grade')
     mgrade = request.args.get('mgrade')
     data = Data2.get_data(id)
+    print(data)
     ldata = data[int(grade)-1: int(mgrade)-1]
     all = []
     for n in ldata:

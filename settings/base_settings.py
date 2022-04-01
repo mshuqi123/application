@@ -13,7 +13,7 @@ class BaseSettings(object):
     基础配置信息
     """
     debug = False
-    SECRET_KEY = 'dev key'
+    SECRET_KEY = 'wechet key'
     CACHE_TYPE = 'simple'
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
@@ -29,6 +29,8 @@ class BaseSettings(object):
 
     # EMAIL_USE_TLS = False # 使用tls
     # EMAIL_USE_SSL 和 EMAIL_USE_TLS 是互斥的，即只能有一个为 True
+
+    EXPIRE = 31536000     # token过期时间
 
     @staticmethod
     def init_app(app):
