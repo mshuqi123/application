@@ -117,3 +117,26 @@ def get_data():
         data.append(cont)
     print(data)
     return AppResponse.response(code=1, data=data)
+
+@wechet_view.route('/get_diary', methods=['GET'])
+def get_diary():
+    """
+    获取日记详情
+    :return:
+    """
+    cid = request.args.get('cid')
+    if cid is None:
+        return AppResponse.response(code=-1, data={"title": "该文章不存在"})
+    content = Content.objects.filter(cid=cid).first()
+    data = []
+    for con in content:
+        cont = dict(cid=con.cid,
+                    title=con.title,
+                     data=con.data,
+                     username=con.username,
+                     text=con.text,
+                     status=con.status
+             )
+        data.append(cont)
+    print(data)
+    return AppResponse.response(code=1, data=data)
