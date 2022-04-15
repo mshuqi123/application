@@ -59,11 +59,27 @@ class User(DynamicDocument):
     def id(self):
         return self.uid
 
+def con_value_decorator(index):
+    """
+    日记内容id生成函数
+    :param index:
+    :return:
+    """
+    value = ""
+    for _ in range(3):
+        value += str(random.randint(0, 9))
+    index = 2 * index + random.randint(1017, 1018)
+    filling_char = "2"
+    return str(index) + value + filling_char  # 内容id是1结尾
+
 class Content(DynamicDocument):
     """
-    用户信息表
+    日记内容表
     """
+    cid = SequenceField(primary_key=True, value_decorator=con_value_decorator)  # 文章id
     phone = StringField(max_length=200, required=True)
+    uid = SequenceField(max_length=100, required=True)  # 用户id
+    username = StringField(max_length=100, required=True)
     title = StringField(max_length=100, required=True)
     data = StringField(max_length=100, required=True)  # 发布时间
     text = StringField(max_length=100000, required=True)

@@ -79,13 +79,19 @@ def write():
     :return:
     """
     phone = request.form.get('phone')
+    user = User.objects.filter(phone=phone).first()
+    if user:
+        uid = user.uid
+        username = user.username
+    else:
+        return AppResponse.response(code=-1, data={"title": "用户不存在"})
     title = request.form.get('title')
     data = request.form.get('data')
     text = request.form.get('text')
     status = request.form.get('status')
     if phone is None or title is None or data is None or text is None or status is None:
         return AppResponse.response(code=-1, data={"title": "内容均不可为空；请重新输入"})
-    content = Content(phone=phone, title=title, data=data, text=text, status=status)
+    content = Content(phone=phone, uid=uid, username=username, title=title, data=data, text=text, status=status)
     content.save()
     return AppResponse.response(code=1, data={"title": "日记发布成功"})
 
@@ -101,8 +107,10 @@ def get_data():
     content = Content.objects.filter(phone=phone).all()
     data = []
     for con in content:
-        cont = dict(title=con.title,
+        cont = dict(cid=con.cid,
+                    title=con.title,
                      data=con.data,
+                     username=con.username,
                      text=con.text,
                      status=con.status
              )
