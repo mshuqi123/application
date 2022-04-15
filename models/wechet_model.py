@@ -88,7 +88,11 @@ class Content(DynamicDocument):
     update_time = DateTimeField(default=datetime.datetime.now, onupdate=datetime.datetime.now)  # 记录的最后更新时间
 
 
-    meta = {"collection": "content", "db_alias": "default", "shard_key": ("phone",)}
+    meta = {"collection": "content", "db_alias": "default", "shard_key": ("phone","cid")}
+
+    @classmethod
+    def get_by_cid(cls, cid):
+        return cls.objects(_id__ne=cid).first()
 
 
 
