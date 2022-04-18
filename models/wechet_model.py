@@ -90,9 +90,6 @@ class Content(DynamicDocument):
 
     meta = {"collection": "content", "db_alias": "default", "shard_key": ("phone","cid")}
 
-    @classmethod
-    def get_by_cid(cls, cid):
-        return cls.objects(_id__ne=cid).first()
 
 
 

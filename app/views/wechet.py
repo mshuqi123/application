@@ -127,7 +127,7 @@ def get_diary():
     cid = request.args.get('cid')
     if cid is None:
         return AppResponse.response(code=-1, data={"title": "该文章不存在"})
-    con = Content.get_by_cid(cid)
+    con = Content.objects.filter(_id=cid).first()
     cont = dict(cid=con.cid,
                 title=con.title,
                  data=con.data,
