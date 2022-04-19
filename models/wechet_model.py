@@ -83,7 +83,7 @@ class Content(DynamicDocument):
     title = StringField(max_length=100, required=True)
     data = StringField(max_length=100, required=True)  # 发布时间
     text = StringField(max_length=100000, required=True)
-    status = BooleanField(required=True)  # 是否公开
+    status = IntField(required=True)  # 是否公开
     create_time = DateTimeField(default=datetime.datetime.now)  # 记录的创建时间
     update_time = DateTimeField(default=datetime.datetime.now, onupdate=datetime.datetime.now)  # 记录的最后更新时间
 

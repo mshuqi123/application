@@ -89,6 +89,10 @@ def write():
     data = request.form.get('data')
     text = request.form.get('text')
     status = request.form.get('status')
+    if status == 'true' or status == True:
+        status = 1
+    elif status == 'false' or status == False:
+        status = 0
     if phone is None or title is None or data is None or text is None or status is None:
         return AppResponse.response(code=-1, data={"title": "内容均不可为空；请重新输入"})
     content = Content(phone=phone, uid=uid, username=username, title=title, data=data, text=text, status=status)
