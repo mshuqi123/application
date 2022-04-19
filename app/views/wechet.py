@@ -140,3 +140,19 @@ def get_diary():
                  status=con.status
          )
     return AppResponse.response(code=1, data=cont)
+
+@wechet_view.route('/delete', methods=['POST'])
+def delete():
+    """
+    删除日记
+    :return:
+    """
+    cid = request.form.get('cid')
+    if cid is None:
+        return AppResponse.response(code=-1, data={"title": "日记ID不能为空"})
+    con = Content.objects.filter(_id=cid).first()
+    if con:
+        Content.objects.filter(_id=cid).delete()
+        return AppResponse.response(code=1, data={"title": "删除成功"})
+    else:
+        return AppResponse.response(code=1, data={"title": "该文章不存在"})
